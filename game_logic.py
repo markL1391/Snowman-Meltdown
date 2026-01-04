@@ -17,6 +17,8 @@ def display_game_state(mistakes, secret_word, guessed_letters):
 
     # Clamp mistakes so no IndexError
     stage_index = min(mistakes, len(STAGES) - 1)
+
+    print("-" * 30)
     print(STAGES[stage_index])
 
     # Build a display version of the secret word.
@@ -29,8 +31,7 @@ def display_game_state(mistakes, secret_word, guessed_letters):
     print(f"Mistakes: {mistakes}/{len(STAGES) -1}")
     print("Guessed letters:", " ".join(guessed_letters) if guessed_letters else "-")
     print("Word:", display_word)
-    print("\n")
-    print("-" * 30)
+    print()
 
 def play_game():
     secret_word = get_random_word()
@@ -59,11 +60,12 @@ def play_game():
             break
 
         # Prompt user for one guess
-        guess = input("Guess a letter: ").lower()
+        guess = input("Guess a letter: ").lower().strip()
 
         # Validate input
         if len(guess) != 1 or not guess.isalpha():
             print("Please enter a single letter (A-Z).")
+            continue
 
         # Ignore repeated guesses
         if guess in guessed_letters:
@@ -77,3 +79,12 @@ def play_game():
             mistakes += 1
 
         print("You guessed:", guess)
+
+def main():
+    """Runs the Snowman game and allows to replay."""
+    while True:
+        play_game()
+        again = input("Play again? (y/n): ").lower().strip()
+        if again != "y":
+            print("Bye ⛄⛄⛄")
+            break
