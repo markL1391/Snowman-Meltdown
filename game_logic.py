@@ -1,3 +1,6 @@
+# game_logic.py
+# Main game logic for Snowman Meltdown
+
 import random
 from ascii_art import STAGES
 
@@ -29,11 +32,15 @@ def display_game_state(mistakes, secret_word, guessed_letters):
 def play_game():
     secret_word = get_random_word()
     guessed_letters = []
+    # Initialize mistake counter
     mistakes = 0
     max_mistakes = len(STAGES) - 1
 
     print("Welcome to Snowman Meltdown!")
 
+    # -------------------------
+    # Main game loop
+    # -------------------------
     while True:
         display_game_state(mistakes, secret_word, guessed_letters)
 
@@ -51,6 +58,10 @@ def play_game():
         # Prompt user for one guess
         guess = input("Guess a letter: ").lower()
 
+        # Validate input
+        if len(guess) != 1 or not guess.isalpha():
+            print("Please enter a single letter (A-Z).")
+
         # Ignore repeated guesses
         if guess in guessed_letters:
             print("You already guessed that letter. Please try again.")
@@ -58,6 +69,7 @@ def play_game():
 
         guessed_letters.append(guess)
 
+        # Increase mistakes if guess is incorrect.
         if guess not in secret_word:
             mistakes += 1
 
